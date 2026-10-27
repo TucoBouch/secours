@@ -1,7 +1,6 @@
 # Premiers secours
 
-Application de premiers secours, mobile d'abord, sans backend. Le contenu vient de la brochure
-« Premiers secours » du CGDIS (Luxembourg, 2021).
+Application de premiers secours, mobile d'abord, sans backend. 
 
 - Vue 3 + Vue Router (mode « hash » : chaque écran est une entrée d'historique, le bouton retour du
   téléphone revient à l'écran précédent)
