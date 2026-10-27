@@ -1,12 +1,13 @@
 <script setup>
-import { BookOpen, HeartPulse, LayoutGrid, ListChecks, Settings } from 'lucide-vue-next'
+import { BookOpen, GraduationCap, HeartPulse, LayoutGrid, ListChecks } from 'lucide-vue-next'
+import { reminderVisible } from '../quiz'
 
 const tabs = [
   { to: '/', label: 'Situations', icon: LayoutGrid },
   { to: '/principes', label: 'Principes', icon: ListChecks },
   { to: '/massage', label: 'Massage', icon: HeartPulse, cpr: true },
   { to: '/techniques', label: 'Techniques', icon: BookOpen },
-  { to: '/reglages', label: 'Réglages', icon: Settings },
+  { to: '/quiz', label: 'Quiz', icon: GraduationCap, quiz: true },
 ]
 </script>
 
@@ -21,7 +22,11 @@ const tabs = [
         :class="{ cpr: t.cpr }"
         exact-active-class="is-active"
       >
-        <span class="ico"><component :is="t.icon" :size="t.cpr ? 28 : 24" :stroke-width="2.1" /></span>
+        <span class="ico">
+          <component :is="t.icon" :size="t.cpr ? 28 : 24" :stroke-width="2.1" />
+          <i v-if="t.quiz && reminderVisible()" class="badge" aria-hidden="true"></i>
+        </span>
+        <span v-if="t.quiz && reminderVisible()" class="sr-only">Rappel : un quiz est à faire</span>
         <span class="lbl">{{ t.label }}</span>
       </RouterLink>
     </div>
@@ -62,12 +67,23 @@ const tabs = [
   background: var(--accent-soft);
 }
 .ico {
+  position: relative;
   display: grid;
   place-items: center;
   width: 56px;
   height: 32px;
   border-radius: 999px;
   transition: background-color 0.2s var(--ease);
+}
+.badge {
+  position: absolute;
+  top: 3px;
+  right: 15px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--danger);
+  box-shadow: 0 0 0 2px var(--surface);
 }
 .tab.cpr { color: var(--text); }
 .tab.cpr .ico {

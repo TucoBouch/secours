@@ -30,7 +30,7 @@ watch(() => current.value.id, revealActive)
 
 <template>
   <div class="screen">
-    <TopBar title="Techniques de base" />
+    <TopBar title="Techniques" gear />
 
     <div ref="chips" class="chips" role="tablist" aria-label="Techniques">
       <button

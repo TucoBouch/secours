@@ -29,7 +29,7 @@ function doReset() {
 
 <template>
   <div class="screen">
-    <TopBar title="Réglages" />
+    <TopBar title="Réglages" back />
 
     <main class="pad stack">
       <section aria-labelledby="s-look">

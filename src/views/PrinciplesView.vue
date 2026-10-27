@@ -7,7 +7,7 @@ import { icons } from '../icons'
 
 <template>
   <div class="screen">
-    <TopBar title="Principes du secours" />
+    <TopBar title="Principes" gear />
 
     <main class="pad stack">
       <section aria-labelledby="p-reflexes">

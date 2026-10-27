@@ -1,12 +1,13 @@
 <script setup>
 import { useRouter } from 'vue-router'
-import { ArrowLeft, Phone } from 'lucide-vue-next'
+import { ArrowLeft, Phone, Settings } from 'lucide-vue-next'
 import AppMark from './AppMark.vue'
 
 defineProps({
   title: { type: String, required: true },
   back: Boolean,
   brand: Boolean,
+  gear: Boolean,
   call: { type: Boolean, default: true },
 })
 
@@ -26,6 +27,9 @@ function goBack() {
     </button>
     <AppMark v-else-if="brand" />
     <h1 class="title">{{ title }}</h1>
+    <RouterLink v-if="gear" to="/reglages" class="icon-btn gear" aria-label="Réglages">
+      <Settings :size="24" :stroke-width="2.1" />
+    </RouterLink>
     <a v-if="call" class="call" href="tel:112" aria-label="Appeler le 112">
       <Phone :size="18" :stroke-width="2.5" />
       <span>112</span>
@@ -63,6 +67,7 @@ function goBack() {
   color: var(--text);
 }
 .icon-btn:active { background: var(--surface-2); }
+.icon-btn.gear { margin-left: 0; margin-right: -4px; color: var(--text-2); }
 .call {
   display: inline-flex;
   align-items: center;

@@ -2,9 +2,11 @@
 import { computed, ref } from 'vue'
 import { HeartPulse, Phone, Search, X } from 'lucide-vue-next'
 import TopBar from '../components/TopBar.vue'
+import QuizReminder from '../components/QuizReminder.vue'
 import { groups, situations } from '../data/situations'
 import { icons } from '../icons'
 import { normalize } from '../lib/fmt'
+import { reminderVisible } from '../quiz'
 import { settings } from '../settings'
 
 const query = ref('')
@@ -22,7 +24,7 @@ const byGroup = computed(() =>
 
 <template>
   <div class="screen">
-    <TopBar title="Premiers secours" brand :call="false" />
+    <TopBar title="Premiers secours" brand gear :call="false" />
 
     <section class="pad hero" aria-label="Actions rapides">
       <h2 class="ask">Que se passe-t-il ?</h2>
@@ -39,6 +41,10 @@ const byGroup = computed(() =>
         </RouterLink>
       </div>
     </section>
+
+    <div v-if="reminderVisible()" class="pad remind">
+      <QuizReminder />
+    </div>
 
     <div class="pad find">
       <label class="search">
@@ -119,6 +125,7 @@ const byGroup = computed(() =>
 .act.danger { background: var(--danger); color: var(--on-danger); }
 .act.accent { background: var(--accent-soft); color: var(--accent-strong); box-shadow: inset 0 0 0 2px var(--accent); }
 
+.remind { margin-top: var(--s-4); }
 .find { margin-top: var(--s-4); }
 .search {
   display: flex;
