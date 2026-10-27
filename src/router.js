@@ -33,7 +33,7 @@ export const router = createRouter({
     { path: '/techniques', name: 'techniques', component: TechniquesView, meta: { tabs: true } },
     { path: '/massage', name: 'massage', component: CprView },
     { path: '/apprendre', name: 'apprendre', component: LearnHomeView, meta: { tabs: true } },
-    { path: '/apprendre/:id', name: 'lecon', component: LessonView },
+    { path: '/apprendre/:id', name: 'lecon', component: LessonView, meta: { tabs: true } },
     { path: '/quiz', name: 'quiz', component: QuizHomeView, meta: { tabs: true } },
     { path: '/quiz/jouer', name: 'quiz-jouer', component: QuizPlayView },
     { path: '/quiz/resultat/:id', name: 'quiz-resultat', component: QuizResultView },

@@ -11,9 +11,10 @@ const tabs = [
   { to: '/massage', label: 'Massage', icon: HeartPulse, cpr: true },
   { to: '/techniques', label: 'Techniques', icon: BookOpen },
   // « Apprendre » regroupe les cours et le quiz : l'onglet reste actif sur les deux écrans.
-  { to: '/apprendre', label: 'Apprendre', icon: GraduationCap, also: ['/quiz'], quiz: true },
+  { to: '/apprendre', label: 'Apprendre', icon: GraduationCap, also: ['/apprendre', '/quiz'], quiz: true },
 ]
-const isActive = (t) => route.path === t.to || !!t.also?.includes(route.path)
+const isActive = (t) =>
+  route.path === t.to || !!t.also?.some((p) => route.path === p || route.path.startsWith(p + '/'))
 </script>
 
 <template>
@@ -49,7 +50,7 @@ const isActive = (t) => route.path === t.to || !!t.also?.includes(route.path)
 }
 .inner {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   max-width: var(--maxw);
   margin-inline: auto;
   height: var(--tabbar-h);
@@ -60,8 +61,9 @@ const isActive = (t) => route.path === t.to || !!t.also?.includes(route.path)
   align-items: center;
   justify-content: center;
   gap: 3px;
+  min-width: 0;
   color: var(--text-2);
-  font-size: 0.75rem;
+  font-size: min(0.72rem, 11.5px); /* barre de navigation : le réglage « texte agrandi » ne doit pas la faire déborder */
   font-weight: 700;
   letter-spacing: 0.01em;
   user-select: none;
@@ -101,6 +103,7 @@ const isActive = (t) => route.path === t.to || !!t.also?.includes(route.path)
   box-shadow: 0 0 0 5px var(--surface), var(--shadow);
 }
 .tab.cpr .lbl { margin-top: -1px; }
+.lbl { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .tab.cpr.is-active { color: var(--accent-strong); }
 .tab:active .ico { transform: scale(0.94); }
 </style>

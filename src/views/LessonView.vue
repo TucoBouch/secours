@@ -32,12 +32,13 @@ function toggle() {
 
 <template>
   <div v-if="lesson" class="screen">
-    <TopBar :title="theme.title" back />
+    <TopBar title="Apprendre" back gear />
 
     <article class="pad">
       <header class="head">
         <h2>{{ lesson.title }}</h2>
         <p class="meta">
+          <span class="theme">{{ theme.title }}</span>
           <span class="time"><Clock :size="16" :stroke-width="2.4" aria-hidden="true" /> {{ lesson.minutes }} min de lecture</span>
           <span v-if="read" class="tag"><Check :size="14" :stroke-width="3.4" aria-hidden="true" /> Déjà lue</span>
         </p>
@@ -88,6 +89,7 @@ function toggle() {
 .head { display: grid; gap: var(--s-2); padding-top: var(--s-2); margin-bottom: var(--s-5); }
 .head h2 { font-size: var(--fs-xl); line-height: 1.08; }
 .meta { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-3); font-size: var(--fs-sm); color: var(--text-2); }
+.theme { font-weight: 700; color: var(--text); }
 .time { display: inline-flex; align-items: center; gap: 6px; }
 .tag { display: inline-flex; align-items: center; gap: 4px; padding: 2px 10px 2px 8px; border-radius: 999px; background: var(--ok); color: var(--bg); font-weight: 700; font-size: var(--fs-xs); }
 .lede { font-size: var(--fs-md); line-height: 1.45; color: var(--text); font-weight: 700; font-family: var(--font-display); }

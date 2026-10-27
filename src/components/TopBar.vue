@@ -39,6 +39,7 @@ function goBack() {
 
 <style scoped>
 .topbar {
+  position: -webkit-sticky;
   position: sticky;
   top: 0;
   z-index: 10;
@@ -52,7 +53,7 @@ function goBack() {
 .title {
   flex: 1;
   min-width: 0;
-  font-size: 1.3rem;
+  font-size: clamp(1.1rem, 5.4vw, 1.3rem);
   line-height: 1.1;
   overflow-wrap: anywhere;
   display: -webkit-box;
