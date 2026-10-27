@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="fr" data-theme="light" data-palette="rouge" data-textsize="normal">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Premiers secours</title>
+    <meta name="description" content="Premiers secours : les bons réflexes, situation par situation. Fonctionne hors ligne." />
+    <meta name="theme-color" content="#f6f2f1" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Premiers secours" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23c8302a'/%3E%3Cpath d='M26 14h12v12h12v12H38v12H26V38H14V26h12z' fill='white'/%3E%3C/svg%3E"
+    />
+    <script>
+      // Applique thème / palette avant le premier rendu (évite le flash blanc).
+      ;(function () {
+        var r = document.documentElement
+        try {
+          var s = JSON.parse(localStorage.getItem('super-lecture:settings:v1') || '{}')
+          var t = s.theme || 'system'
+          var dark = t === 'dark' || (t === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)
+          r.dataset.theme = dark ? 'dark' : 'light'
+          r.dataset.palette = s.palette || 'rouge'
+          r.dataset.textsize = s.textSize || 'normal'
+        } catch (e) {}
+      })()
+    </script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <noscript>Cette application a besoin de JavaScript. En cas d'urgence, appelez le 112.</noscript>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

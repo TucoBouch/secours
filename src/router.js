@@ -1,0 +1,39 @@
+import { createRouter, createWebHashHistory } from 'vue-router'
+import { ref } from 'vue'
+import HomeView from './views/HomeView.vue'
+import SituationView from './views/SituationView.vue'
+import PrinciplesView from './views/PrinciplesView.vue'
+import TechniquesView from './views/TechniquesView.vue'
+import CprView from './views/CprView.vue'
+import SettingsView from './views/SettingsView.vue'
+
+// Chaque écran est une entrée de l'historique du navigateur (routes en « # »).
+// Le bouton retour du téléphone remonte donc l'historique au lieu de fermer l'application.
+// Le mode « hash » fonctionne aussi quand le fichier est ouvert directement (file://).
+const history = createWebHashHistory()
+
+// Sens de la navigation, pour orienter l'animation d'entrée (avant / retour).
+export const direction = ref('fwd')
+let popDirection = ''
+history.listen((_to, _from, info) => {
+  popDirection = info.direction
+})
+
+export const router = createRouter({
+  history,
+  routes: [
+    { path: '/', name: 'home', component: HomeView, meta: { tabs: true } },
+    { path: '/situation/:id', name: 'situation', component: SituationView },
+    { path: '/principes', name: 'principes', component: PrinciplesView, meta: { tabs: true } },
+    { path: '/techniques', name: 'techniques', component: TechniquesView, meta: { tabs: true } },
+    { path: '/massage', name: 'massage', component: CprView },
+    { path: '/reglages', name: 'reglages', component: SettingsView, meta: { tabs: true } },
+    { path: '/:pathMatch(.*)*', redirect: '/' },
+  ],
+  scrollBehavior: (_to, _from, saved) => saved || { top: 0 },
+})
+
+router.beforeEach(() => {
+  direction.value = popDirection === 'back' ? 'back' : 'fwd'
+  popDirection = ''
+})

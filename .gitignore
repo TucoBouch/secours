@@ -1,0 +1,20 @@
+# Dépendances
+node_modules/
+
+# Build (régénéré par `npm run build`)
+dist/
+
+# PDF (sources, brochures…)
+*.pdf
+
+# Logs
+*.log
+npm-debug.log*
+
+# Éditeurs / système
+.DS_Store
+.idea/
+.vscode/
+
+# Réglages locaux de Claude Code
+.claude/settings.local.json
