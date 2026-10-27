@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { onBeforeRouteLeave, useRouter } from 'vue-router'
 import { Play, Square, Sun, Timer, Vibrate, Volume2, VolumeX } from 'lucide-vue-next'
 import TopBar from '../components/TopBar.vue'
@@ -7,6 +7,7 @@ import TorsoFigure from '../components/TorsoFigure.vue'
 import { useMetronome } from '../composables/useMetronome'
 import { useWakeLock } from '../composables/useWakeLock'
 import { settings } from '../settings'
+import { vRoving } from '../directives/roving'
 
 const router = useRouter()
 const torso = ref(null)
@@ -105,6 +106,39 @@ onBeforeRouteLeave(() => {
     return false
   }
 })
+// Dialogue modal : focus sur « Continuer », focus piégé dans la boîte, Échap = continuer,
+// et retour du focus à l'élément d'origine à la fermeture.
+const stayBtn = ref(null)
+let opener = null
+watch(confirmLeave, async (open) => {
+  if (open) {
+    opener = document.activeElement
+    await nextTick()
+    stayBtn.value?.focus()
+  } else {
+    await nextTick() // attend que `inert` soit retiré du fond avant de rendre le focus
+    opener?.focus?.()
+    opener = null
+  }
+})
+function onSheetKey(e) {
+  if (e.key === 'Escape') {
+    confirmLeave.value = false
+    return
+  }
+  if (e.key !== 'Tab') return
+  const f = [...e.currentTarget.querySelectorAll('button')]
+  const first = f[0]
+  const last = f[f.length - 1]
+  if (e.shiftKey && document.activeElement === first) {
+    e.preventDefault()
+    last.focus()
+  } else if (!e.shiftKey && document.activeElement === last) {
+    e.preventDefault()
+    first.focus()
+  }
+}
+
 function leave() {
   leaveOk = true
   stop()
@@ -127,9 +161,9 @@ const wakeText = computed(() => {
 
 <template>
   <div class="screen cpr">
-    <TopBar title="Massage cardiaque" back />
+    <TopBar title="Massage cardiaque" back :inert="confirmLeave" />
 
-    <main class="pad">
+    <main class="pad" :inert="confirmLeave">
       <p class="status" :class="{ on: wake.active.value }">
         <Sun :size="16" :stroke-width="2.4" />{{ wakeText }}
       </p>
@@ -163,7 +197,7 @@ const wakeText = computed(() => {
       </p>
 
       <section class="tune" aria-label="Réglages du tempo">
-        <div class="tempos" role="radiogroup" aria-label="Tempo">
+        <div v-roving class="tempos" role="radiogroup" aria-label="Tempo">
           <button
             v-for="b in TEMPOS"
             :key="b"
@@ -203,7 +237,7 @@ const wakeText = computed(() => {
       </section>
     </main>
 
-    <div class="dock">
+    <div class="dock" :inert="confirmLeave">
       <button type="button" class="go" :class="{ stop: running }" @click="toggle">
         <component :is="running ? Square : Play" :size="26" :stroke-width="2.6" :fill="running ? 'currentColor' : 'none'" />
         {{ running ? 'Arrêter le tempo' : 'Démarrer le tempo' }}
@@ -211,10 +245,10 @@ const wakeText = computed(() => {
     </div>
 
     <div v-if="confirmLeave" class="scrim" @click.self="confirmLeave = false">
-      <div class="sheet" role="alertdialog" aria-labelledby="lv-t" aria-modal="true">
+      <div class="sheet" role="alertdialog" aria-labelledby="lv-t" aria-describedby="lv-d" aria-modal="true" @keydown="onSheetKey">
         <h2 id="lv-t">Arrêter le massage ?</h2>
-        <p>Le tempo s’arrête si vous quittez cet écran.</p>
-        <button type="button" class="btn btn-primary btn-block" @click="confirmLeave = false">Continuer le massage</button>
+        <p id="lv-d">Le tempo s’arrête si vous quittez cet écran.</p>
+        <button ref="stayBtn" type="button" class="btn btn-primary btn-block" @click="confirmLeave = false">Continuer le massage</button>
         <button type="button" class="btn btn-block" @click="leave">Quitter</button>
       </div>
     </div>
@@ -276,7 +310,7 @@ const wakeText = computed(() => {
   min-height: 50px; border-radius: 10px;
   font-family: var(--font-display); font-weight: 750; font-size: var(--fs-lg); color: var(--text-2);
 }
-.tempos button.on { background: var(--surface); color: var(--text); box-shadow: 0 1px 3px oklch(30% 0.03 var(--h) / 0.2); }
+.tempos button.on { background: var(--surface); color: var(--text); box-shadow: var(--shadow-sm); }
 .toggles { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: var(--s-2); }
 .tg {
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
@@ -310,7 +344,7 @@ const wakeText = computed(() => {
 .go:active { transform: scale(0.98); }
 .go.stop { background: var(--surface-2); color: var(--text); box-shadow: inset 0 0 0 2px var(--line); }
 
-.scrim { position: fixed; inset: 0; z-index: 40; display: flex; align-items: flex-end; justify-content: center; background: oklch(15% 0.02 var(--h) / 0.55); }
+.scrim { position: fixed; inset: 0; z-index: 40; display: flex; align-items: flex-end; justify-content: center; background: var(--scrim); }
 .sheet {
   width: 100%; max-width: var(--maxw); display: grid; gap: var(--s-3);
   padding: var(--s-5) var(--gutter) calc(var(--s-5) + env(safe-area-inset-bottom));
@@ -320,4 +354,5 @@ const wakeText = computed(() => {
 .sheet h2 { font-size: var(--fs-lg); }
 .sheet p { color: var(--text-2); }
 @keyframes sheet-in { from { transform: translateY(24px); opacity: 0; } to { transform: none; opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .sheet { animation: fade-in 0.16s linear; } }
 </style>

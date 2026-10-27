@@ -65,14 +65,12 @@ const seg = (i) => {
 
 <template>
   <div v-if="c && item" class="screen play">
-    <TopBar title="Quiz" back :call="false" />
+    <TopBar :title="`Question ${c.cursor + 1} sur ${total}`" back :call="false" />
 
     <div class="pad">
       <div class="bar" role="progressbar" :aria-valuenow="c.cursor + 1" aria-valuemin="1" :aria-valuemax="total" :aria-label="`Question ${c.cursor + 1} sur ${total}`">
         <i v-for="(_, i) in c.items" :key="i" :class="seg(i)"></i>
       </div>
-      <p class="count">Question {{ c.cursor + 1 }} sur {{ total }} · {{ item.topic }}</p>
-
       <h2 ref="heading" class="q" tabindex="-1">{{ item.q }}</h2>
 
       <ul class="opts">
@@ -104,14 +102,12 @@ const seg = (i) => {
 <style scoped>
 .play { padding-bottom: calc(110px + env(safe-area-inset-bottom)); }
 
-.bar { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 4px; margin-top: var(--s-1); }
+.bar { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 4px; }
 .bar i { height: 6px; border-radius: 3px; background: var(--line); transition: background-color 0.25s var(--ease); }
 .bar i.now { background: var(--accent); }
 .bar i.ok { background: var(--ok); }
 .bar i.ko { background: var(--danger); }
-.count { margin-top: var(--s-3); font-size: var(--fs-xs); font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-2); }
-
-.q { margin-top: var(--s-2); font-size: var(--fs-lg); line-height: 1.2; outline: none; }
+.q { margin-top: var(--s-5); font-size: var(--fs-lg); line-height: 1.2; outline: none; }
 
 .opts { display: grid; gap: var(--s-2); margin-top: var(--s-5); }
 .opt {
@@ -134,7 +130,7 @@ const seg = (i) => {
 .opt.wrong { background: var(--danger-soft); border-color: var(--danger); }
 .opt.wrong .letter { background: var(--danger); color: var(--on-danger); }
 .opt.wrong .mark { color: var(--danger); }
-.opt.dim { opacity: 0.55; }
+.opt.dim { opacity: 0.72; }
 
 .fb { margin-top: var(--s-5); padding: var(--s-4); border-radius: var(--radius); display: grid; gap: var(--s-2); line-height: 1.45; }
 .fb h3 { font-size: var(--fs-md); }

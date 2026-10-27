@@ -7,6 +7,7 @@ import StepList from '../components/StepList.vue'
 import TorsoFigure from '../components/TorsoFigure.vue'
 import { techniqueById, techniques } from '../data/techniques'
 import { fmt } from '../lib/fmt'
+import { vRoving } from '../directives/roving'
 
 const route = useRoute()
 const router = useRouter()
@@ -32,7 +33,7 @@ watch(() => current.value.id, revealActive)
   <div class="screen">
     <TopBar title="Techniques" gear />
 
-    <div ref="chips" class="chips" role="tablist" aria-label="Techniques">
+    <div ref="chips" v-roving class="chips" role="tablist" aria-label="Techniques">
       <button
         v-for="t in techniques"
         :id="`tab-${t.id}`"
@@ -84,6 +85,7 @@ watch(() => current.value.id, revealActive)
   overflow-x: auto;
   scroll-snap-type: x proximity;
   scrollbar-width: none;
+  overscroll-behavior-x: contain;
   background: var(--bg);
 }
 .chips::-webkit-scrollbar { display: none; }

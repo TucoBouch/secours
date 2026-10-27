@@ -62,7 +62,7 @@ function again() {
                   <Check v-if="ok(it)" :size="18" :stroke-width="3.2" />
                   <X v-else :size="18" :stroke-width="3.2" />
                 </span>
-                <span class="sq"><span class="sn">{{ n + 1 }}. {{ it.topic }}</span>{{ it.q }}</span>
+                <span class="sq">{{ n + 1 }}. {{ it.q }}<span class="sn">{{ it.topic }}</span></span>
                 <ChevronDown :size="20" class="chev" aria-hidden="true" />
                 <span class="sr-only">{{ ok(it) ? 'Réponse juste' : 'Réponse fausse' }}</span>
               </summary>
@@ -112,21 +112,21 @@ function again() {
 
 .rv { display: flex; align-items: baseline; justify-content: space-between; gap: var(--s-3); flex-wrap: wrap; font-size: var(--fs-lg); margin-bottom: var(--s-3); }
 .rv small { font-family: var(--font-body); font-size: var(--fs-sm); font-weight: 700; color: var(--danger); }
-.list { display: grid; gap: var(--s-2); }
+.list { display: grid; }
+.list > li { border-top: 1px solid var(--line); }
+.list > li:last-child { border-bottom: 1px solid var(--line); }
 
-.item { border-radius: var(--radius); background: var(--surface); border: 1px solid var(--line); overflow: hidden; }
-.item.ko { border-color: var(--danger-line); }
-summary { display: flex; align-items: flex-start; gap: var(--s-3); padding: var(--s-3) var(--s-4); cursor: pointer; list-style: none; min-height: 56px; }
+summary { display: flex; align-items: flex-start; gap: var(--s-3); padding: var(--s-4) 0; cursor: pointer; list-style: none; min-height: 56px; }
 summary::-webkit-details-marker { display: none; }
 .st { flex: none; display: grid; place-items: center; width: 28px; height: 28px; margin-top: 2px; border-radius: 50%; }
 .item.ok .st { background: var(--ok); color: var(--bg); }
 .item.ko .st { background: var(--danger); color: var(--on-danger); }
 .sq { flex: 1; display: grid; gap: 2px; font-weight: 700; line-height: 1.3; font-size: var(--fs-base); }
-.sn { font-size: var(--fs-xs); letter-spacing: 0.05em; text-transform: uppercase; color: var(--text-2); font-weight: 700; }
+.sn { font-size: var(--fs-sm); color: var(--text-2); font-weight: 400; }
 .chev { flex: none; margin-top: 4px; color: var(--text-2); transition: transform 0.2s var(--ease); }
 details[open] .chev { transform: rotate(180deg); }
 
-.opts { display: grid; gap: 6px; padding: 0 var(--s-4) var(--s-3); }
+.opts { display: grid; gap: 6px; padding: 0 0 var(--s-3); }
 .opts li { display: flex; align-items: center; flex-wrap: wrap; gap: var(--s-2); padding: var(--s-2) var(--s-3); border-radius: 12px; background: var(--surface-2); line-height: 1.3; font-size: var(--fs-sm); }
 .opts li.right { background: var(--ok-soft); box-shadow: inset 0 0 0 1.5px var(--ok); }
 .opts li.wrong { background: var(--danger-soft); box-shadow: inset 0 0 0 1.5px var(--danger); }
@@ -136,7 +136,7 @@ details[open] .chev { transform: rotate(180deg); }
 .tag.good { background: var(--ok); color: var(--bg); }
 .tag.bad { background: var(--danger); color: var(--on-danger); }
 .tag.mine { background: var(--bg); color: var(--text-2); }
-.why { padding: 0 var(--s-4) var(--s-4); color: var(--text-2); font-size: var(--fs-sm); line-height: 1.5; }
+.why { padding: 0 0 var(--s-4); color: var(--text-2); font-size: var(--fs-sm); line-height: 1.5; }
 
 .dock {
   position: fixed; inset: auto 0 0 0; z-index: 15;

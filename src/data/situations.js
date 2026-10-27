@@ -6,7 +6,7 @@
 // steps : string | { badge, title, text }
 
 export const groups = [
-  { id: 'vital', title: 'Urgences vitales', hint: 'Agir tout de suite' },
+  { id: 'vital', title: 'Urgences vitales' },
   { id: 'trauma', title: 'Accidents et blessures' },
   { id: 'malaise', title: 'Malaises et respiration' },
 ]

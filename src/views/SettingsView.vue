@@ -6,6 +6,7 @@ import SegmentedControl from '../components/SegmentedControl.vue'
 import ToggleRow from '../components/ToggleRow.vue'
 import { palettes } from '../data/palettes'
 import { resetSettings, settings } from '../settings'
+import { vRoving } from '../directives/roving'
 
 const canVibrate = typeof navigator !== 'undefined' && typeof navigator.vibrate === 'function'
 
@@ -46,7 +47,7 @@ function doReset() {
 
         <div class="field">
           <span class="lab" id="lab-palette">Couleur</span>
-          <div class="palette" role="radiogroup" aria-labelledby="lab-palette">
+          <div v-roving class="palette" role="radiogroup" aria-labelledby="lab-palette">
             <button
               v-for="p in palettes"
               :key="p.id"
@@ -96,7 +97,7 @@ function doReset() {
         <p>
           Contenu d’après la brochure <em>Premiers secours</em> du CGDIS (Luxembourg, 2021). Cette application ne remplace pas une formation aux premiers secours.
         </p>
-        <p class="warn">En cas de doute ou de danger vital : <a href="tel:112">appelez le 112</a>.</p>
+        <a class="warn" href="tel:112">En cas de doute ou de danger vital : <strong>appelez le 112</strong></a>
 
         <button v-if="!confirmReset" type="button" class="btn btn-block" @click="confirmReset = true">
           <RotateCcw :size="20" /> Rétablir les réglages d’origine
@@ -119,8 +120,8 @@ section > h2 { font-size: var(--fs-xl); margin-bottom: var(--s-4); }
 .lab { font-weight: 700; }
 .help { color: var(--text-2); font-size: var(--fs-sm); }
 
-.palette { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--s-3) var(--s-2); }
-.sw { display: grid; justify-items: center; gap: 6px; min-height: 44px; padding: 4px 0; border-radius: 14px; color: var(--text-2); font-size: var(--fs-xs); font-weight: 700; }
+.palette { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--s-3) var(--s-2); }
+.sw { display: grid; justify-items: center; text-align: center; overflow-wrap: anywhere; gap: 6px; min-height: 44px; padding: 4px 0; border-radius: 14px; color: var(--text-2); font-size: var(--fs-xs); font-weight: 700; }
 .sw .dot {
   display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%;
   background: oklch(56% var(--c) var(--h)); color: oklch(99% 0.01 var(--h));
@@ -138,8 +139,8 @@ section > h2 { font-size: var(--fs-xl); margin-bottom: var(--s-4); }
 .about h2 { margin-bottom: 0; }
 .about p { color: var(--text-2); line-height: 1.5; }
 .about strong { color: var(--text); }
-.about .warn { padding: var(--s-4); border-radius: var(--radius); background: var(--danger-soft); border: 1px solid var(--danger-line); color: var(--text); font-weight: 700; }
-.about .warn a { color: var(--danger); text-decoration: underline; }
+.about .warn { display: flex; align-items: center; min-height: 56px; padding: var(--s-3) var(--s-4); border-radius: var(--radius); background: var(--danger-soft); border: 1px solid var(--danger-line); color: var(--text); font-weight: 700; line-height: 1.35; }
+.about .warn strong { color: var(--danger); }
 .about .btn { margin-top: var(--s-2); }
 .confirm { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-2); margin-top: var(--s-2); }
 .confirm p { grid-column: 1 / -1; color: var(--text); font-weight: 700; }

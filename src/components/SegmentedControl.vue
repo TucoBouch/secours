@@ -1,5 +1,6 @@
 <script setup>
 // Choix exclusif : options = [{ value, label }]
+import { vRoving } from '../directives/roving'
 defineProps({
   modelValue: { type: String, required: true },
   options: { type: Array, required: true },
@@ -9,7 +10,7 @@ defineEmits(['update:modelValue'])
 </script>
 
 <template>
-  <div class="seg" role="radiogroup" :aria-label="label">
+  <div v-roving class="seg" role="radiogroup" :aria-label="label">
     <button
       v-for="o in options"
       :key="o.value"
@@ -29,7 +30,7 @@ defineEmits(['update:modelValue'])
 .seg {
   display: grid;
   grid-auto-flow: column;
-  grid-auto-columns: 1fr;
+  grid-auto-columns: minmax(0, 1fr);
   gap: 4px;
   padding: 4px;
   border-radius: 14px;
@@ -41,7 +42,9 @@ defineEmits(['update:modelValue'])
   justify-content: center;
   gap: var(--s-2);
   min-height: 46px;
-  padding: 0 var(--s-2);
+  padding: var(--s-1) var(--s-2);
+  text-align: center;
+  line-height: 1.15;
   border-radius: 10px;
   font-weight: 700;
   font-size: var(--fs-sm);
@@ -51,6 +54,6 @@ defineEmits(['update:modelValue'])
 .opt.on {
   background: var(--surface);
   color: var(--text);
-  box-shadow: 0 1px 3px oklch(30% 0.03 var(--h) / 0.18);
+  box-shadow: var(--shadow-sm);
 }
 </style>

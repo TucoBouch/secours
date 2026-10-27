@@ -53,9 +53,12 @@ function goBack() {
   flex: 1;
   min-width: 0;
   font-size: 1.3rem;
-  white-space: nowrap;
+  line-height: 1.1;
+  overflow-wrap: anywhere;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   overflow: hidden;
-  text-overflow: ellipsis;
 }
 .icon-btn {
   display: grid;

@@ -11,8 +11,8 @@ import { icons } from '../icons'
 
     <main class="pad stack">
       <section aria-labelledby="p-reflexes">
-        <p class="eyebrow">Avant de porter secours</p>
-        <h2 id="p-reflexes" class="h">4 réflexes, dans cet ordre</h2>
+        <h2 id="p-reflexes" class="h">4 réflexes avant de porter secours</h2>
+        <p class="order">À suivre dans cet ordre.</p>
         <ol class="reflexes">
           <li v-for="(r, i) in reflexes" :key="r.title" class="reflex">
             <span class="n">{{ i + 1 }}</span>
@@ -30,7 +30,6 @@ import { icons } from '../icons'
       </section>
 
       <section aria-labelledby="p-112" class="call112">
-        <p class="eyebrow">Au téléphone</p>
         <h2 id="p-112" class="h">L’appel au 112 : 5 questions</h2>
         <ul class="qs">
           <li v-for="q in questions" :key="q.k">
@@ -44,7 +43,6 @@ import { icons } from '../icons'
       </section>
 
       <section aria-labelledby="p-chain">
-        <p class="eyebrow">Vue d’ensemble</p>
         <h2 id="p-chain" class="h">La chaîne de sauvetage</h2>
         <ol class="chain">
           <li v-for="(c, i) in chain" :key="c.title" :class="{ you: i < 3 }">
@@ -72,7 +70,8 @@ import { icons } from '../icons'
 
 <style scoped>
 .stack { display: grid; gap: var(--s-7); padding-top: var(--s-2); }
-.h { font-size: var(--fs-xl); line-height: 1.05; margin-top: 2px; margin-bottom: var(--s-4); }
+.h { font-size: var(--fs-xl); line-height: 1.05; margin-bottom: var(--s-4); }
+.order { margin-top: calc(var(--s-3) * -1); margin-bottom: var(--s-4); color: var(--text-2); }
 
 .reflexes { display: grid; gap: 0; counter-reset: none; }
 .reflex { display: grid; grid-template-columns: 2.25rem 1fr; gap: var(--s-3); padding-block: var(--s-4); border-top: 1px solid var(--line); }

@@ -85,7 +85,6 @@ const byGroup = computed(() =>
       <template v-else>
         <section v-for="g in byGroup" :key="g.id" class="group">
           <div class="gh">
-            <span v-if="g.hint" class="eyebrow">{{ g.hint }}</span>
             <h2>{{ g.title }}</h2>
           </div>
           <ul class="grid">
@@ -106,7 +105,7 @@ const byGroup = computed(() =>
 <style scoped>
 .hero { display: grid; gap: var(--s-3); padding-top: var(--s-2); }
 .ask { font-size: var(--fs-xl); line-height: 1.05; }
-.quick { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-3); }
+.quick { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-3); }
 .act {
   display: grid;
   align-content: start;
@@ -120,7 +119,7 @@ const byGroup = computed(() =>
 }
 .act:active { transform: scale(0.97); }
 .act svg { margin-bottom: var(--s-2); }
-.act .t { font-family: var(--font-display); font-weight: 750; font-size: var(--fs-md); line-height: 1.1; }
+.act .t { font-family: var(--font-display); font-weight: 750; font-size: var(--fs-md); line-height: 1.1; hyphens: auto; overflow-wrap: break-word; }
 .act .s { font-size: var(--fs-xs); opacity: 0.85; line-height: 1.25; }
 .act.danger { background: var(--danger); color: var(--on-danger); }
 .act.accent { background: var(--accent-soft); color: var(--accent-strong); box-shadow: inset 0 0 0 2px var(--accent); }
@@ -154,9 +153,9 @@ const byGroup = computed(() =>
 .clear { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; color: var(--text-2); }
 
 .groups { margin-top: var(--s-5); display: grid; gap: var(--s-6); }
-.gh { display: grid; gap: 2px; margin-bottom: var(--s-3); }
+.gh { margin-bottom: var(--s-3); }
 .gh h2 { font-size: var(--fs-lg); }
-.grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-3); }
+.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-3); }
 
 .tile {
   display: grid;
@@ -164,7 +163,7 @@ const byGroup = computed(() =>
   gap: 2px;
   height: 100%;
   min-height: 112px;
-  padding: var(--s-4);
+  padding: var(--s-4) clamp(0.75rem, 4vw, 1rem);
   border-radius: var(--radius);
   background: var(--surface);
   border: 1px solid var(--line);
@@ -174,8 +173,8 @@ const byGroup = computed(() =>
 }
 .tile:active { transform: scale(0.97); }
 .tile .ico { color: var(--accent); margin-bottom: var(--s-2); }
-.tile .tt { font-family: var(--font-display); font-weight: 700; font-size: var(--fs-md); line-height: 1.15; }
-.tile .ts { font-size: var(--fs-sm); color: var(--text-2); line-height: 1.3; }
+.tile .tt { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.05rem, 4.8vw, 1.1875rem); line-height: 1.15; hyphens: auto; overflow-wrap: break-word; }
+.tile .ts { font-size: var(--fs-sm); color: var(--text-2); line-height: 1.3; overflow-wrap: break-word; }
 .tile.vital { background: var(--danger-soft); border-color: var(--danger-line); }
 .tile.vital .ico { color: var(--danger); }
 

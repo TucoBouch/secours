@@ -87,6 +87,8 @@
   --ok: oklch(48% 0.12 155);
   --ok-soft: oklch(95.5% 0.035 155);
   --shadow: 0 1px 2px oklch(30% 0.03 var(--h) / 0.08), 0 8px 24px -12px oklch(30% 0.03 var(--h) / 0.18);
+  --shadow-sm: 0 1px 3px oklch(30% 0.03 var(--h) / 0.18);
+  --scrim: oklch(15% 0.02 var(--h) / 0.55);
 }
 
 :root[data-theme='dark'] {
@@ -109,6 +111,7 @@
   --ok: oklch(78% 0.14 155);
   --ok-soft: oklch(28% 0.055 155);
   --shadow: 0 1px 2px oklch(0% 0 0 / 0.4), 0 10px 28px -12px oklch(0% 0 0 / 0.55);
+  --shadow-sm: 0 1px 3px oklch(0% 0 0 / 0.5);
 }
 
 :root[data-textsize='large'] { font-size: 112.5%; }
@@ -151,6 +154,10 @@ strong { font-weight: 700; }
 
 :focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
 
+/* Surfaces du navigateur aux couleurs de la palette */
+::selection { background: color-mix(in oklch, var(--accent) 30%, var(--bg)); color: var(--text); }
+input, textarea { caret-color: var(--accent); }
+
 .sr-only {
   position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
   overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
@@ -167,6 +174,10 @@ strong { font-weight: 700; }
 }
 .has-tabs .screen { padding-bottom: calc(var(--tabbar-h) + var(--s-6) + env(safe-area-inset-bottom)); }
 .pad { padding-inline: var(--gutter); }
+
+/* Colonnes uniques en grille : sans minmax(0, 1fr), un contenu large (texte agrandi) élargit la colonne
+   au-delà de l'écran au lieu de passer à la ligne. */
+.stack, .groups, .intro, .list, .hist, .steps, .reflexes, .chain, .hub ul, .tune { grid-template-columns: minmax(0, 1fr); }
 
 .eyebrow {
   font-family: var(--font-body);
@@ -198,6 +209,12 @@ strong { font-weight: 700; }
 .page-fwd-enter-active { animation: in-fwd 0.22s var(--ease); }
 .page-back-enter-active { animation: in-back 0.22s var(--ease); }
 
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+
+/* Mouvement réduit : plus de déplacement ni de zoom, mais le retour d'état reste (fondus, changements de couleur). */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+  *, *::before, *::after { scroll-behavior: auto !important; }
+  [class] { transition-property: color, background-color, border-color, box-shadow, opacity, filter !important; }
+  :active { transform: none !important; }
+  .page-fwd-enter-active, .page-back-enter-active { animation: fade-in 0.16s linear; }
 }
