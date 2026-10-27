@@ -1,14 +1,19 @@
 <script setup>
 import { BookOpen, GraduationCap, HeartPulse, LayoutGrid, ListChecks } from 'lucide-vue-next'
+import { useRoute } from 'vue-router'
 import { reminderVisible } from '../quiz'
+
+const route = useRoute()
 
 const tabs = [
   { to: '/', label: 'Situations', icon: LayoutGrid },
   { to: '/principes', label: 'Principes', icon: ListChecks },
   { to: '/massage', label: 'Massage', icon: HeartPulse, cpr: true },
   { to: '/techniques', label: 'Techniques', icon: BookOpen },
-  { to: '/quiz', label: 'Quiz', icon: GraduationCap, quiz: true },
+  // « Apprendre » regroupe les cours et le quiz : l'onglet reste actif sur les deux écrans.
+  { to: '/apprendre', label: 'Apprendre', icon: GraduationCap, also: ['/quiz'], quiz: true },
 ]
+const isActive = (t) => route.path === t.to || !!t.also?.includes(route.path)
 </script>
 
 <template>
@@ -19,8 +24,8 @@ const tabs = [
         :key="t.to"
         :to="t.to"
         class="tab"
-        :class="{ cpr: t.cpr }"
-        exact-active-class="is-active"
+        :class="{ cpr: t.cpr, 'is-active': isActive(t) }"
+        :aria-current="isActive(t) ? 'page' : undefined"
       >
         <span class="ico">
           <component :is="t.icon" :size="t.cpr ? 28 : 24" :stroke-width="2.1" />

@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router'
 import { ChevronRight, Play, RotateCcw } from 'lucide-vue-next'
 import TopBar from '../components/TopBar.vue'
 import QuizReminder from '../components/QuizReminder.vue'
+import StudyTabs from '../components/StudyTabs.vue'
 import { QUESTION_COUNT } from '../data/quiz'
 import { ago, formatDateTime } from '../lib/dates'
 import { HISTORY_MAX, QUIZ_LENGTH, abandon, quiz, reminder, startQuiz } from '../quiz'
@@ -31,7 +32,9 @@ const ok = (item) => item.picked === item.answer
 
 <template>
   <div class="screen">
-    <TopBar title="Quiz" gear />
+    <TopBar title="Apprendre" gear />
+
+    <div class="pad tabs"><StudyTabs /></div>
 
     <main class="pad stack">
       <QuizReminder v-if="due" variant="page" />
@@ -82,7 +85,8 @@ const ok = (item) => item.picked === item.answer
 </template>
 
 <style scoped>
-.stack { display: grid; gap: var(--s-6); padding-top: var(--s-2); }
+.tabs { padding-top: var(--s-1); }
+.stack { display: grid; gap: var(--s-6); padding-top: var(--s-5); }
 .intro { display: grid; gap: var(--s-3); }
 .intro h2 { font-size: var(--fs-xl); line-height: 1.05; }
 .intro p { color: var(--text-2); line-height: 1.5; }

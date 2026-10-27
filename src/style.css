@@ -143,6 +143,8 @@ h1, h2, h3, h4 {
   line-height: 1.12;
   letter-spacing: -0.012em;
   text-wrap: balance;
+  hyphens: auto;
+  overflow-wrap: break-word; /* un long titre (« L’hyperventilation ») ne doit jamais déborder avec un texte agrandi */
 }
 p { margin: 0; text-wrap: pretty; }
 ul, ol { margin: 0; padding: 0; list-style: none; }

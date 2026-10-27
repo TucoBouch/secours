@@ -6,6 +6,8 @@ import SegmentedControl from '../components/SegmentedControl.vue'
 import ToggleRow from '../components/ToggleRow.vue'
 import { palettes } from '../data/palettes'
 import { resetSettings, settings } from '../settings'
+import { LESSON_COUNT } from '../data/lessons'
+import { readCount, resetRead } from '../learn'
 import { vRoving } from '../directives/roving'
 
 const canVibrate = typeof navigator !== 'undefined' && typeof navigator.vibrate === 'function'
@@ -20,6 +22,12 @@ const sizes = [
   { value: 'large', label: 'Grand' },
   { value: 'xlarge', label: 'Très grand' },
 ]
+
+const confirmLearnReset = ref(false)
+function doLearnReset() {
+  resetRead()
+  confirmLearnReset.value = false
+}
 
 const confirmReset = ref(false)
 function doReset() {
@@ -89,6 +97,22 @@ function doReset() {
         <ToggleRow v-model="settings.cpr.ventilations" label="Pause pour les insufflations" hint="Après 30 compressions, 5 secondes pour 2 insufflations (30 : 2)." />
       </section>
 
+      <section aria-labelledby="s-learn" class="learn">
+        <h2 id="s-learn">Apprendre</h2>
+        <p>
+          <strong>{{ readCount() }}</strong> leçon{{ readCount() > 1 ? 's' : '' }} marquée{{ readCount() > 1 ? 's' : '' }} comme lue{{ readCount() > 1 ? 's' : '' }}
+          sur {{ LESSON_COUNT }}.
+        </p>
+        <button v-if="!confirmLearnReset" type="button" class="btn btn-block" :disabled="!readCount()" @click="confirmLearnReset = true">
+          <RotateCcw :size="20" /> Réinitialiser les leçons lues
+        </button>
+        <div v-else class="confirm">
+          <p>Effacer la marque « lue » de toutes les leçons ?</p>
+          <button type="button" class="btn btn-primary" @click="doLearnReset">Oui, réinitialiser</button>
+          <button type="button" class="btn" @click="confirmLearnReset = false">Annuler</button>
+        </div>
+      </section>
+
       <section aria-labelledby="s-about" class="about">
         <h2 id="s-about">À propos</h2>
         <p>
@@ -134,6 +158,12 @@ section > h2 { font-size: var(--fs-xl); margin-bottom: var(--s-4); }
 .sw:active .dot { transform: scale(0.93); }
 
 .range { width: 100%; height: 44px; accent-color: var(--accent); }
+
+.learn { display: grid; gap: var(--s-3); }
+.learn h2 { margin-bottom: 0; }
+.learn > p { color: var(--text-2); line-height: 1.5; }
+.learn strong { color: var(--text); }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
 .about { display: grid; gap: var(--s-3); }
 .about h2 { margin-bottom: 0; }

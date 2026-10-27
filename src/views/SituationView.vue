@@ -4,6 +4,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { Ban, ChevronDown, ChevronRight, Info, Phone } from 'lucide-vue-next'
 import TopBar from '../components/TopBar.vue'
 import StepList from '../components/StepList.vue'
+import { lessonsForSituation } from '../data/lessons'
 import { situationById } from '../data/situations'
 import { icons } from '../icons'
 import { fmt } from '../lib/fmt'
@@ -17,6 +18,7 @@ watchEffect(() => {
 })
 
 const vital = computed(() => s.value?.group === 'vital')
+const lessonLinks = computed(() => (s.value ? lessonsForSituation(s.value.id) : []))
 </script>
 
 <template>
@@ -97,8 +99,11 @@ const vital = computed(() => s.value?.group === 'vital')
 
       <p v-if="s.note" class="note"><Info :size="20" :stroke-width="2.2" /><span v-html="fmt(s.note)"></span></p>
 
-      <nav v-if="s.see" class="see" aria-label="Voir aussi">
+      <nav v-if="s.see || lessonLinks.length" class="see" aria-label="Voir aussi">
         <span class="eyebrow">Voir aussi</span>
+        <RouterLink v-for="l in lessonLinks" :key="l.id" :to="`/apprendre/${l.id}`" class="chip">
+          Approfondir : {{ l.title }} <ChevronRight :size="18" />
+        </RouterLink>
         <RouterLink v-for="l in s.see" :key="l.to" :to="l.to" class="chip">
           {{ l.label }} <ChevronRight :size="18" />
         </RouterLink>

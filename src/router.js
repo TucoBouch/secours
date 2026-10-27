@@ -6,6 +6,8 @@ import PrinciplesView from './views/PrinciplesView.vue'
 import TechniquesView from './views/TechniquesView.vue'
 import CprView from './views/CprView.vue'
 import SettingsView from './views/SettingsView.vue'
+import LearnHomeView from './views/LearnHomeView.vue'
+import LessonView from './views/LessonView.vue'
 import QuizHomeView from './views/QuizHomeView.vue'
 import QuizPlayView from './views/QuizPlayView.vue'
 import QuizResultView from './views/QuizResultView.vue'
@@ -30,6 +32,8 @@ export const router = createRouter({
     { path: '/principes', name: 'principes', component: PrinciplesView, meta: { tabs: true } },
     { path: '/techniques', name: 'techniques', component: TechniquesView, meta: { tabs: true } },
     { path: '/massage', name: 'massage', component: CprView },
+    { path: '/apprendre', name: 'apprendre', component: LearnHomeView, meta: { tabs: true } },
+    { path: '/apprendre/:id', name: 'lecon', component: LessonView },
     { path: '/quiz', name: 'quiz', component: QuizHomeView, meta: { tabs: true } },
     { path: '/quiz/jouer', name: 'quiz-jouer', component: QuizPlayView },
     { path: '/quiz/resultat/:id', name: 'quiz-resultat', component: QuizResultView },
