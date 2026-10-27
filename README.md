@@ -6,7 +6,7 @@ Application de premiers secours, mobile d'abord, sans backend.
   téléphone revient à l'écran précédent)
 - Réglages (thème clair/sombre/auto, 8 couleurs, taille du texte, options du massage cardiaque)
   conservés dans le `localStorage`
-- Quiz de révision : 10 questions à choix multiple tirées au hasard parmi 76, explication après chaque réponse,
+- Quiz de révision : 10 questions à choix multiple tirées au hasard parmi 173, explication après chaque réponse,
   5 derniers quiz conservés (`localStorage`), rappel s'il n'y en a pas eu depuis un mois
 - Build en **un seul fichier** : `dist/index.html` (JS, CSS, polices et icônes embarqués)
 
